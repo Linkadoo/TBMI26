@@ -3,9 +3,9 @@ function [Wout,Vout, trainingError, testError ] = trainMultiLayer(Xtraining,Dtra
 %   Inputs:
 %               X* - Trainin/test features (matrix)
 %               D* - Training/test desired output of net (matrix)
-%               V0 - Weights of the output neurons (matrix)
+%               V0 - Weights of the hidden neurons (matrix)
 %               W0 - Weights of the output neurons (matrix)
-%               numIterations - Number of learning setps (scalar)
+%               numIterations - Number of learning steps (scalar)
 %               learningRate - The learningrate (scalar)
 %
 %   Output:
@@ -32,10 +32,11 @@ trainingError(1) = sum(sum((Ytraining - Dtraining).^2))/(numTraining*numClasses)
 testError(1) = sum(sum((Ytest - Dtest).^2))/(numTest*numClasses);
 
 for n = 1:numIterations
-    Ytraining = runMultiLayer(Xtraining, Wout, Vout);
-
-    grad_v = 0; %Calculate the gradient for the output layer
-    grad_w = 0; %..and for the hidden layer.
+    [Ytraining, L, B, S] = runMultiLayer(Xtraining, Wout, Vout);
+    
+    Deriv = 1-tanh(S).^2;
+    grad_v = 2/numTraining*((Wout(:,2:end)'*(Ytraining-Dtraining)).* Deriv * Xtraining'); %Calculate the gradient for the output layer
+    grad_w = 2/numTraining*(Ytraining-Dtraining)*B'; %..and for the hidden layer.
 
 
 

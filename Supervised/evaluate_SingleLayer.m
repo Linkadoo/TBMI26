@@ -7,7 +7,7 @@
 % 3 = dot cloud 3
 % 4 = OCR data
 
-dataSetNr = 2; % Change this to load new data 
+dataSetNr = 4; % Change this to load new data 
 
 [X, D, L] = loadDataSet( dataSetNr );
 
@@ -36,10 +36,10 @@ Xtest  = [ones(1,size(Xt{2},2));Xt{2}]; % Remove this line
 % Note: You nned to modify trainSingleLayer() in order to train the network
 
 numIterations = 40000; % Change this, Numner of iterations (Epochs)
-learningRate = 0.00005; % Change this, Your learningrate
-W0 = 0; % Change this, Initiate your weight matrix W
+learningRate = 0.00005; % Change this, Your learningrate % OBS 0.0005 4th data set diverges.
+W0 = zeros(size(D,1),size(Xtraining,1)); % Change this, Initiate your weight matrix W
 
-[W, trainingError, testError ] = trainSingleLayer(Xtraining,Dt{1},Xtest,Dt{2}, W0,numIterations, learningRate );
+[W, trainingError, testError, Wvalue ] = trainSingleLayer(Xtraining,Dt{1},Xtest,Dt{2}, W0,numIterations, learningRate );
 
 % Plot errors
 figure(1101)
@@ -53,6 +53,9 @@ hold off
 title('Training and Test Errors, Single Layer')
 legend('Training Error','Test Error','Min Test Error')
 
+
+figure;
+plot(Wvalue);
 %% Calculate The Confusion Matrix and the Accuracy of the Evaluation Data
 % Note: you have to modify the calcConfusionMatrix() function yourselfs.
 
