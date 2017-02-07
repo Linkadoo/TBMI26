@@ -13,7 +13,7 @@ dataSetNr = 4; % Change this to load new data
 
 %% Select a subset of the training features
 
-numBins = 2; % Number of Bins you want to devide your data into
+numBins = 16; % Number of Bins you want to devide your data into
 numSamplesPerLabelPerBin = inf; % Number of samples per label per bin, set to inf for max number (total number is numLabels*numSamplesPerBin)
 selectAtRandom = true; % true = select features at random, false = select the first features
 
@@ -25,25 +25,33 @@ selectAtRandom = true; % true = select features at random, false = select the fi
 
 % The Training Data
 Xtraining = [];
-Xtraining  = [ones(1,size(Xt{1},2));Xt{1}]; % Remove this line
+Xtraining  = [ones(1,(numBins-1)*size(Xt{1},2));Xt{1:numBins-1}]; % Remove this line
 
 % The Test Data
 Xtest = [];
-Xtest  = [ones(1,size(Xt{2},2));Xt{2}]; % Remove this line
+Xtest  = [ones(1,size(Xt{numBins},2));Xt{numBins}]; % Remove this line%
+
+DTest = Dt{numBins};
+Dt(:,numBins) = [];
+DTraining = cell2mat(Dt);
+
 
 
 %% Train your single layer network
 % Note: You need to modify trainMultiLayer() in order to train the network
 
-numHidden = 150; % Change this, Number of hidden neurons 
-numIterations = 10000; % Change this, Numner of iterations (Epochs)
+numHidden = 96; % Change this, Number of hidden neurons 
+numIterations = 1000; % Change this, Numner of iterations (Epochs)
 learningRate = 0.005; % Change this, Your learningrate
-W0 = 2*rand(size(D,1),numHidden+1)-1; % Change this, Initiate your weight matrix W
-V0 = 2*rand(numHidden,size(Xtraining,1))-1; % Change this, Initiate your weight matrix V
+W0 = 0.2*rand(size(D,1),numHidden+1)-0.1; % Change this, Initiate your weight matrix W
+V0 = 0.2*rand(numHidden,size(Xtraining,1))-0.1; % Change this, Initiate your weight matrix V
+step_momentum = 0.8;
+%W0 = W;
+%V0 = V;
 
 %
 tic
-[W,V, trainingError, testError ] = trainMultiLayer(Xtraining,Dt{1},Xtest,Dt{2}, W0,V0,numIterations, learningRate );
+[W,V, trainingError, testError ] = trainMultiLayer(Xtraining,DTraining,Xtest,DTest, W0,V0,numIterations, learningRate,step_momentum);
 trainingTime = toc;
 %% Plot errors
 figure(1101)

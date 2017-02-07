@@ -1,4 +1,4 @@
-function [Wout,Vout, trainingError, testError ] = trainMultiLayer(Xtraining,Dtraining,Xtest,Dtest, W0, V0,numIterations, learningRate )
+function [Wout,Vout, trainingError, testError ] = trainMultiLayer(Xtraining,Dtraining,Xtest,Dtest, W0, V0,numIterations, learningRate, step_momentum)
 %TRAINMULTILAYER Trains the network (Learning)
 %   Inputs:
 %               X* - Trainin/test features (matrix)
@@ -31,12 +31,15 @@ Ytest = runMultiLayer(Xtest, W0, V0);
 trainingError(1) = sum(sum((Ytraining - Dtraining).^2))/(numTraining*numClasses);
 testError(1) = sum(sum((Ytest - Dtest).^2))/(numTest*numClasses);
 
+grad_v = 0;
+grad_w = 0;
+
 for n = 1:numIterations
     [Ytraining, L, B, S] = runMultiLayer(Xtraining, Wout, Vout);
     
     Deriv = 1-tanh(S).^2;
-    grad_v = 2/numTraining*((Wout(:,2:end)'*(Ytraining-Dtraining)).* Deriv * Xtraining'); %Calculate the gradient for the output layer
-    grad_w = 2/numTraining*(Ytraining-Dtraining)*B'; %..and for the hidden layer.
+    grad_v = step_momentum * grad_v + 2/numTraining*((Wout(:,2:end)'*(Ytraining-Dtraining)).* Deriv * Xtraining'); %Calculate the gradient for the output layer
+    grad_w = step_momentum * grad_w + 2/numTraining*(Ytraining-Dtraining)*B'; %..and for the hidden layer.
 
 
 
