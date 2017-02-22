@@ -25,11 +25,15 @@ end
 % from each class. Non-faces = class label y=-1, faces = class label y=1
 nbrTrainExamples = 500;
 trainImages = cat(3,faces(:,:,1:nbrTrainExamples),nonfaces(:,:,1:nbrTrainExamples));
+testImages = cat(3,faces(:,:,nbrTrainExamples:end),nonfaces(:,:,nbrTrainExamples:end));
 xTrain = ExtractHaarFeatures(trainImages,haarFeatureMasks);
+xTest = ExtractHaarFeatures(testImages,haarFeatureMasks);
 yTrain = [ones(1,nbrTrainExamples), -ones(1,nbrTrainExamples)];
+ytest = [ones(1,size(testImages,2)/2), -ones(1,size(testImages,2)/2)];
+
 
 %%
-[alfa, thresh, polarity, feat] = trainBoosting(xTrain, yTrain,400 );
+[alfa, thresh, polarity, feat] = trainBoosting(xTrain, yTrain,100 );
 %%
 Lclass = strongClassifier(xTrain,polarity, thresh, alfa, feat);
 %%

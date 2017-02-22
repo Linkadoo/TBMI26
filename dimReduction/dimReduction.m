@@ -14,7 +14,7 @@ cov_a = a_norm * a_norm';
 var_a = diag(cov_a);
 corr_a = cov_a./sqrt(var_a*var_a');
 
-[a_eig_vec, a_eig_val] = sorteig(cov_a);
+[a_eig_vec, a_eig_val] = sorteig(cov_a)
 
 a_eig_select = a_eig_vec(:,:);
 
