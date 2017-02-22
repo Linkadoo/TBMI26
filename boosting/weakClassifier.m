@@ -26,7 +26,7 @@ Error = zeros(size(Xdata,1),1);
     if(totalError < 0)
         123;
     elseif(totalError > 1)
-        123;
+        totalError = 1;
     end
 end
 

@@ -8,8 +8,10 @@ for k = 1:size(featureMatrix,1)
     
     kthFeature2 = sort(kthFeature);
     kthFeature2 = [kthFeature(1)-1; kthFeature; kthFeature(end)+1];
-    
+    threshMin = 0;
     emin = inf;
+    polarityMin = 0;
+    errorVec = zeros(size(Y,1),1);
     for j = 1:size(kthFeature2,1)-1
        polarity = 1;
        tempThresh = (kthFeature2(j) + kthFeature2(j+1))/2;
@@ -19,7 +21,9 @@ for k = 1:size(featureMatrix,1)
             polarity = -1;
             errorTemp = 1 - errorTemp;
        end
-       
+       if(errorTemp == 0)
+           23;
+       end
        if(errorTemp < emin)
            threshMin = tempThresh;
            emin = errorTemp;
