@@ -13,23 +13,22 @@ for k = 1:size(featureMatrix,1)
     for j = 1:size(kthFeature2,1)-1
        polarity = 1;
        tempThresh = (kthFeature2(j) + kthFeature2(j+1))/2;
-       [errorTemp errorTempV] = weakClassifier(kthFeature,Y,tempThresh,weights); 
+       [errorTemp, errorTempV] = weakClassifier(kthFeature,Y,tempThresh,weights); 
        
        if(errorTemp > 0.5)
             polarity = -1;
             errorTemp = 1 - errorTemp;
-     
-           
        end
+       
        if(errorTemp < emin)
            threshMin = tempThresh;
            emin = errorTemp;
            polarityMin = polarity;
            errorVec = errorTempV;
-       end
-        
+           if(emin < 0)
+               213;
+           end
+       end 
     end
-
-
 end
 

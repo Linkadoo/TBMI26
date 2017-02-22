@@ -7,13 +7,13 @@
 % 3 = dot cloud 3
 % 4 = OCR data
 
-dataSetNr = 4; % Change this to load new data 
+dataSetNr = 2; % Change this to load new data 
 
 [X, D, L] = loadDataSet( dataSetNr );
 
 %% Select a subset of the training features
 
-numBins = 16; % Number of Bins you want to devide your data into
+numBins = 2; % Number of Bins you want to devide your data into
 numSamplesPerLabelPerBin = inf; % Number of samples per label per bin, set to inf for max number (total number is numLabels*numSamplesPerBin)
 selectAtRandom = true; % true = select features at random, false = select the first features
 
@@ -40,12 +40,12 @@ DTraining = cell2mat(Dt);
 %% Train your single layer network
 % Note: You need to modify trainMultiLayer() in order to train the network
 
-numHidden = 96; % Change this, Number of hidden neurons 
-numIterations = 1000; % Change this, Numner of iterations (Epochs)
+numHidden = 4; % Change this, Number of hidden neurons 
+numIterations = 400; % Change this, Numner of iterations (Epochs)
 learningRate = 0.005; % Change this, Your learningrate
 W0 = 0.2*rand(size(D,1),numHidden+1)-0.1; % Change this, Initiate your weight matrix W
 V0 = 0.2*rand(numHidden,size(Xtraining,1))-0.1; % Change this, Initiate your weight matrix V
-step_momentum = 0.8;
+step_momentum = 0.6;
 %W0 = W;
 %V0 = V;
 

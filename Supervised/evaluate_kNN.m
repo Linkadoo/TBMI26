@@ -8,12 +8,12 @@ run setupSupervisedLab.m
 % 3 = dot cloud 3
 % 4 = OCR data
 
-dataSetNr = 3; % Change this to load new data 
+dataSetNr = 4; % Change this to load new data 
 
 [X, D, L] = loadDataSet( dataSetNr );
 
 % You can plot and study dataset 1 to 3 by running:
-%%
+
 hold on
 plotCase(X,D)
 
@@ -71,6 +71,6 @@ plot(acc1,'b');
 plot(acc2,'r');
 plot(acc3,'g');
 plot(acc4,'black');
-legend('Set 1', 'Set 2','Set 3','Set 4')
-xlabel('Number of kNNs')
-ylabel('Accuracy')
+legend('Set 1', 'Set 2','Set 3','Set 4');
+xlabel('Number of kNNs');
+ylabel('Accuracy');

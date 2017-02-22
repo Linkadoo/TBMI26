@@ -13,7 +13,7 @@ subplot(5,5,k), imagesc(nonfaces(:,:,10*k)), axis image, axis off
 end
 %% Generate Haar feature masks
 
-nbrHaarFeatures = 100;
+nbrHaarFeatures = 25;
 haarFeatureMasks = GenerateHaarFeatureMasks(nbrHaarFeatures);
 figure(3)
 colormap gray
@@ -29,8 +29,9 @@ xTrain = ExtractHaarFeatures(trainImages,haarFeatureMasks);
 yTrain = [ones(1,nbrTrainExamples), -ones(1,nbrTrainExamples)];
 
 %%
-[alfa, thresh, polarity] = trainBoosting(xTrain, yTrain, 4);
+[alfa, thresh, polarity, feat] = trainBoosting(xTrain, yTrain,64 );
 %%
-Lclass = strongClassifier(xTrain,polarity, thresh, alfa);
+Lclass = strongClassifier(xTrain,polarity, thresh, alfa, feat);
+%%
 cM = calcConfusionMatrix(Lclass,yTrain);
 acc = calcAccuracy(cM)

@@ -20,7 +20,7 @@ Nt = size(Xt,2);
 Ntest = size(Xtest,2);
 Wout = W0;
 Wvalue = zeros(numIterations,1);
-
+grad_w = 0;
 % Calculate initial error
 Yt = runSingleLayer(Xt, W0);
 Ytest = runSingleLayer(Xtest, W0);
@@ -29,7 +29,7 @@ testError(1) = sum(sum((Ytest - Dtest).^2))/Ntest;
 
 for n = 1:numIterations
     Y = runSingleLayer(Xt, Wout);    
-    grad_w = 2*(Y-Dt)*Xt'./Nt; 
+    grad_w = grad_w* 0.7 + 2*(Y-Dt)*Xt'./Nt; 
     Wvalue(n) = Wout(1,1);
     Wout = Wout - learningRate*grad_w;
     trainingError(1+n) = sum(sum((Wout*Xt - Dt).^2))/Nt;
