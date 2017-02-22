@@ -13,12 +13,14 @@ function [ alfa, threshWeak, polarityWeak, feat] = trainBoosting( Xtrain, Ytrain
     
     %For each classifier
     for t = 1:T %size(Xtrain,1)%
-        feat(t) = randi([1 size(Xtrain,1)]);
+        t
         
         %Train a weak classifier
-       [threshWeak(t,1),polarityWeak(t,1), errorVec, emin] = ...
-           trainDecisionStump(Xtrain(feat(t),:),Ytrain(:),dweights);
+       [threshWeak(t,1),polarityWeak(t,1), errorVec, emin, featureMin] = ...
+           trainDecisionStump(Xtrain,Ytrain(:),dweights);
       
+       feat(t) = featureMin;
+       
        %Change the weights
        for i = 1:size(dweights,1)
           alfa(t,1) = 0.5 * log((1-emin)/emin);

@@ -1,6 +1,11 @@
-function [threshMin, polarityMin, errorVec, emin] = trainDecisionStump( featureMatrix, Y, weights)
+function [threshMin, polarityMin, errorVec, emin, kmin] = trainDecisionStump( featureMatrix, Y, weights)
 %UNTITLED4 Summary of this function goes here
 %   Detailed explanation goes here
+
+    threshMin = 0;
+    emin = inf;
+    polarityMin = 0;
+    kmin = 0;
 
 for k = 1:size(featureMatrix,1)
     
@@ -8,9 +13,6 @@ for k = 1:size(featureMatrix,1)
     
     kthFeature2 = sort(kthFeature);
     kthFeature2 = [kthFeature(1)-1; kthFeature; kthFeature(end)+1];
-    threshMin = 0;
-    emin = inf;
-    polarityMin = 0;
     errorVec = zeros(size(Y,1),1);
     for j = 1:size(kthFeature2,1)-1
        polarity = 1;
@@ -25,6 +27,7 @@ for k = 1:size(featureMatrix,1)
            23;
        end
        if(errorTemp < emin)
+           kmin = k;
            threshMin = tempThresh;
            emin = errorTemp;
            polarityMin = polarity;

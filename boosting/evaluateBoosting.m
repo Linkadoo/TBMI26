@@ -33,9 +33,9 @@ ytest = [ones(1,size(testImages,2)/2), -ones(1,size(testImages,2)/2)];
 
 
 %%
-[alfa, thresh, polarity, feat] = trainBoosting(xTrain, yTrain,100 );
-%%
+[alfa, thresh, polarity, feat] = trainBoosting(xTrain, yTrain,10);
+
 Lclass = strongClassifier(xTrain,polarity, thresh, alfa, feat);
-%%
+
 cM = calcConfusionMatrix(Lclass,yTrain);
 acc = calcAccuracy(cM)
