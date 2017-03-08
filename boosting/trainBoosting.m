@@ -10,7 +10,7 @@ function [ alfa, threshWeak, polarityWeak, feat] = trainBoosting( Xtrain, Ytrain
     threshWeak = zeros(size(T,1),1);%T,1);
     polarityWeak = zeros(size(T,1),1);%T,1);
     alfa = zeros(size(T,1),1);
-    
+
     %For each classifier
     for t = 1:T %size(Xtrain,1)%
         t
@@ -19,23 +19,22 @@ function [ alfa, threshWeak, polarityWeak, feat] = trainBoosting( Xtrain, Ytrain
        [threshWeak(t,1),polarityWeak(t,1), errorVec, emin, featureMin] = ...
            trainDecisionStump(Xtrain,Ytrain(:),dweights);
       
+       emin;
+       dweights;
        feat(t) = featureMin;
+       alfa(t,1) = 0.5 * log((1-emin)/emin);
        
        %Change the weights
        for i = 1:size(dweights,1)
-          alfa(t,1) = 0.5 * log((1-emin)/emin);
-          if(imag(alfa(t)) ~= 0)
-              213;
-          end
           if(errorVec(i) == 1) 
               dweights(i) = dweights(i) * exp(alfa(t));
-            % Deal with outliers
-            %  if(dweights(i) > 0.3)
-            %      dweights(i) = 0;
-            %  end
+             %Deal with outliers
+              if(dweights(i) > 0.01)
+                  dweights(i) = 0;
+              end
           else
               dweights(i) = dweights(i) * exp(-alfa(t));
-          end
+          end          
        end
       %Normalize weights
       dweights = dweights / sum(dweights);

@@ -22,9 +22,16 @@ Error = zeros(size(Xdata,1),1);
     end
     
     totalError = sum(Error .* weights);
-
-    if(totalError < 0)
-        123;
+    
+    if(threshold == -273)
+        weights;
+        Error;
+        totalError;
+        x = 3;
+    end
+    
+    if(totalError < 0.001)
+        totalError = 0.001;
     elseif(totalError > 1)
         totalError = 1;
     end
