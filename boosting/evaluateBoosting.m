@@ -33,7 +33,7 @@ yTest = [ones(1,size(testImages,3)/2), -ones(1,size(testImages,3)/2)];
 
 
 %%
-[alfa, thresh, polarity, feat] = trainBoosting(xTrain, yTrain,9);
+[alfa, thresh, polarity, feat] = trainBoosting(xTrain, yTrain,10);
 
 Lclass = strongClassifier(xTest,polarity, thresh, alfa, feat);
 
